@@ -14,21 +14,7 @@
 
 <body>
 
-    <?php
-    $firstName = "Jonathan";
-    $firstNames = ["Nathalie", $firstName, "Johanne", "Maeva"];
-    $myInformations = [
-        "firstName" => "Jonathan",
-        "lastName" => "Bastee",
-        "age" => 51
-    ];
-    $string = "Dans ma classe, il y a ";
-    for ($i = count($firstNames) - 1; $i >= 0; $i--) {
-        $string .= $firstNames[$i];
-        $i !== 0 && $string .= ", ";
-        }
-    echo $string;
-    ?>
+    
 
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -55,6 +41,13 @@
         <h1>My movies</h1>
         <h3>découvrez et partagez des films</h3>
         <img class="logo" src="./images/arrangement-film-reels-clapboard.jpg" alt="Logo my movies">
+
+        <?php 
+            /*foreach ($movies as $movie) {
+                # code...
+            } */
+        
+        ?>
 
         <section class="container d-flex justify-content-center">
             <div class="card m-3" style="width: 18rem;">
