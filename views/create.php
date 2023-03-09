@@ -37,21 +37,24 @@
 
     <main>
         <h3>Publier un nouveau film</h3>
-        <form class="container-fluid w-50">
+        <form class="container-fluid w-50" method="POST">
             <label for="title">Titre</label>
             <input type="text" name="title" id="title" placeholder="Le titre du film" class="form-control">
-            <label for="synopsis">Synopsis</label>
-            <textarea name="synopsis" id="synopsis" rows="10" placeholder="Le résumé du film"></textarea>
-            <label for="imageUrl">Image</label>
-            <input type="url" name="imageUrl" id="imageUrl" placeholder="l'URL de l'image du film" class="form-control">
-            <label for="releaseDate">Date de sortie</label>
-            <input type="date" name="releaseDate" id="releaseDate" class="form-control">
-            <label for="category">Catégorie</label>
-            <select name="categoryId" id="category" class="form-select">
-                <option value="" selected>-- Selectionnez une catégorie --</option>
-                <option value="1">Horreur</option>
-                <option value="2">Drame</option>
-                <option value="3">Comedie</option>
+            <label for="description">Synopsis</label>
+            <textarea name="description" id="description" rows="10" placeholder="Le résumé du film" class="form-control"></textarea>
+            <label for="image_url">Image</label>
+            <input type="url" name="image_url" id="image_url" placeholder="L'URL de l'image du film" class="form-control">
+            <label for="release_date">Date de sortie</label>
+            <input type="date" name="release_date" id="release_date" class="form-control">
+            <label for="director">Réalisateur</label>
+            <input type="text" name="director" id="director" placeholder="Le réalisateur du film" class="form-control">
+            <label for="category_id">Catégorie</label>
+            <select name="category_id" id="category_id" class="form-select">
+                <option value="" selected>-- Sélectionnez une catégorie --</option>
+                <?php
+                foreach ($categories as $category) : ?>
+                    <option value="<?= $category->getId() ?>"><?= $category->getName() ?></option>
+                <?php endforeach ?>
             </select>
             <input type="submit" value="Publier" class="btn btn-primary mt-3">
         </form>
