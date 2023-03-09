@@ -14,6 +14,24 @@
 
 <body>
 
+<?php
+
+require_once("./entities/Movie.php");
+
+$movie = new Movie([
+    "id" => 1, 
+    "title" => "Avatar",
+    "description" => "un film avec des gens bleus...",
+    "image_url" => "https://th.bing.com/th/id/OIP.fGAAmasOt143fXzpdIuTbgHaK-?",
+    "release_date" => "2009-12-16",
+    "director" => "James Cameron", 
+    "category_id" => 3
+]);
+// var_dump($movie);
+
+
+
+?>
     
 
     <header>
@@ -53,9 +71,9 @@
             <div class="card m-3" style="width: 18rem;">
                 <img src="https://th.bing.com/th/id/OIP.jrS3kCsr9-YWwJvRqcGxXwHaJ4?w=132&h=180&c=7&r=0&o=5&pid=1.7" class="card-img-top" alt="Avatar">
                 <div class="card-body">
-                    <h5 class="card-title">Avatar</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Aventure</h6>
-                    <p class="card-text">film avec des gens bleus</p>
+                    <h5 class="card-title"><?php echo $movie->getTitle() ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?php echo $movie->getRelease_date() ?></h6>
+                    <p class="card-text"><?php echo $movie->getDescription() ?></p>
                     <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier">
                         <i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="#" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Supprimer">
