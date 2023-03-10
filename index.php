@@ -16,12 +16,32 @@
 
 <?php
 
+function loadClass(string $class) {
+    if ($class === "DotEnv") {
+        require_once "./config/$class.php";
+    } else if(str_contains($class, "Controller")) {
+        require_once "./Controller/$class.php";
+    } else {
+        require_once "./Entity/$class.php";
+    }
+}
+spl_autoload_register("loadClass");
 
+
+require_once("./config/DotEnv.php");
 require_once("./Entity/Movie.php");
+require_once("./Entity/Category.php");
 require_once("./Controller/MovieController.php");
+require_once("./Controller/CategoryController.php");
 
 $movieController = new MovieController();
 $movies = $movieController->getAll();
+
+$categoryController = new CategoryController();
+
+/* echo "<pre>";
+var_dump($categories);
+echo "</pre>"; */
 
 /*$movie = new Movie([
     "id" => 1, 
@@ -69,16 +89,19 @@ $movies = $movieController->getAll();
 
         <section class="container d-flex justify-content-center">
         <?php 
-            foreach ($movies as $movie): ?>
+            foreach ($movies as $movie): 
+                $Category = $categoryController->get($movie->getCategory_id());
+        ?>
             <div class="card mx-3" style="width: 18rem;">
                 <img src="https://th.bing.com/th/id/OIP.jrS3kCsr9-YWwJvRqcGxXwHaJ4?w=132&h=180&c=7&r=0&o=5&pid=1.7" class="card-img-top" alt="<?php $movie->getTitle() ?>">
                 <div class="card-body">
-                    <h5 class="card-title"><?php $movie->getTitle() ?></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><?php $movie->getRelease_date() ?></h6>
-                    <p class="card-text"><?php $movie->getDescription() ?></p>
+                    <h5 class="card-title"><?= $movie->getTitle() ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?= $movie->getRelease_date() ?> - <?= $movie->getDirector() ?></h6>
+                    <p class="card-text"><?= $movie->getDescription() ?> </p>
+                    <footer class="blockquote-footer" style="color: <?= $category->getColor() ?>"><?= $Category->getName() ?> </footer>
                     <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier">
                         <i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="#" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Supprimer">
+                    <a href="./views/delete.php?id=<?= $movie->getId() ?>" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Supprimer">
                         <i class="fa-solid fa-trash-can"></i></a>
                 </div>
             </div>

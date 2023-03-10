@@ -45,9 +45,11 @@ class MovieController {
     {
         # code...
     }
-    public function delete(Movie $movie): void
+    public function delete(int $id): void
     {
-        # code...
+        $req = $this->pdo->prepare("DELETE FROM movie WHERE id = :id");
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
     }
 
 
