@@ -1,8 +1,6 @@
 <?php
 
-//require_once "../config/DotEnv.php";
-
-class CategoryController
+class UserController
 {
     private PDO $pdo;
 
@@ -26,29 +24,30 @@ class CategoryController
     public function getAll(): array
     {
         $categories = [];
-        $req = $this->pdo->query("SELECT * FROM `category`");
+        $req = $this->pdo->query("SELECT * FROM `user`");
         $data = $req->fetchAll();
-        foreach ($data as $category) {
-            $categories[] = new Category($category);
+        foreach ($data as $user) {
+            $users[] = new User($user);
         }
-        return $categories;
+        return $users;
     }
 
-    public function get(int $id): Category
+    public function get(int $id): User
     {
-        $req = $this->pdo->prepare("SELECT * FROM `category` WHERE id = :id");
+        $req = $this->pdo->prepare("SELECT * FROM `user` WHERE id = :id");
         $req->bindParam(":id", $id, PDO::PARAM_INT);
         $req->execute();
         $data = $req->fetch();
-        $category = new Category($data);
-        return $category;
+        $user = new User($data);
+        return $user;
     }
 
-    public function create(Category $newCategory): void
+    public function create(User $newUser): void
     {
-        $req = $this->pdo->prepare("INSERT INTO `category` (name, color) VALUES (:name, :color)");
-        $req->bindParam(":name", $newCategory->getName(), PDO::PARAM_STR);
-        $req->bindParam(":color", $newCategory->getColor(), PDO::PARAM_STR);
+        $req = $this->pdo->prepare("INSERT INTO `user` (username, email, password) VALUES (:username, :email, :password)");
+        $req->bindValue(":username", $newUser->getUsername(), PDO::PARAM_STR);
+        $req->bindValue(":email", $newUser->getEmail(), PDO::PARAM_STR);
+        $req->bindValue(":password", $newUser->getPassword(), PDO::PARAM_STR);
         $req->execute();
     }
 
