@@ -14,50 +14,68 @@
 
 <body>
 
-<?php
-
-function loadClass(string $class) {
-    if ($class === "DotEnv") {
-        require_once "./config/$class.php";
-    } else if(str_contains($class, "Controller")) {
-        require_once "./Controller/$class.php";
-    } else {
-        require_once "./Entity/$class.php";
+    <?php
+    session_start();
+    function loadClass(string $class)
+    {
+        if ($class === "DotEnv") {
+            require_once "./config/$class.php";
+        } else if (str_contains($class, "Controller")) {
+            require_once "./Controller/$class.php";
+        } else {
+            require_once "./Entity/$class.php";
+        }
     }
-}
-spl_autoload_register("loadClass");
 
+    spl_autoload_register("loadClass");
 
-require_once("./config/DotEnv.php");
-require_once("./Entity/Movie.php");
-require_once("./Entity/Category.php");
-require_once("./Controller/MovieController.php");
-require_once("./Controller/CategoryController.php");
+    $movieController = new MovieController();
+    $movies = $movieController->getAll();
+    $categoryController = new CategoryController();
 
-$movieController = new MovieController();
-$movies = $movieController->getAll();
-
-$categoryController = new CategoryController();
-
-/* echo "<pre>";
-var_dump($categories);
-echo "</pre>"; */
-
-/*$movie = new Movie([
-    "id" => 1, 
-    "title" => "Avatar",
-    "description" => "un film avec des gens bleus...",
-    "image_url" => "https://th.bing.com/th/id/OIP.fGAAmasOt143fXzpdIuTbgHaK-?",
-    "release_date" => "2009-12-16",
-    "director" => "James Cameron", 
-    "category_id" => 3
-]);*/
-
-
-
-
-?>
-    
+    /* $movie = new Movie([
+        "id" => 1,
+        "title" => "Avatar",
+        "description" => "Un film avec des gens bleus... :)",
+        "image_url" => "https://m.media-amazon.com/images/I/615Yl386WYL._AC_SY606_.jpg",
+        "release_date" => "2009-12-16",
+        "director" => "James Cameron",
+        "category_id" => 3
+    ]);
+    $firstName = "Michael";
+    $firstNames = array("Christelle", "Christophe", $firstName, "Aline");
+    $myInformations = [
+        "firstName" => "Chris",
+        "lastName" => "Chevalier",
+        "age" => 29
+    ];
+    function displayNames(array $names): string
+    {
+        $string = "Dans ma classe, il y a ";
+        $i = 0;
+        while ($i <= sizeof($names) - 1) {
+            if ($i === 2) {
+                $i++;
+                continue;
+            }
+            $string .= $names[$i];
+            $i !== 0 && $string .= ", ";
+            $i++;
+        }
+        return $string . "<br/>";
+    }
+    $firstNames2 = array("Lionel", "Philippe", "Laurent", "Melissa");
+    $result = displayNames($firstNames);
+    echo displayNames($firstNames2);
+    echo $result;
+    echo "J'ai un tableau de " . count($firstNames) . " éléments";
+    for ($i = count($firstNames) - 1; $i >= 0; $i--) {
+        echo "Je m'appelle $firstNames[$i] ! :)";
+    }
+    foreach ($myInformations as $key => $information) {
+        echo "$information ! :)<br/>";
+    } */
+    ?>
 
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -83,28 +101,28 @@ echo "</pre>"; */
     <main>
         <h1>My movies</h1>
         <h3>découvrez et partagez des films</h3>
-        <img class="logo" src="./images/arrangement-film-reels-clapboard.jpg" alt="Logo my movies">
+        <img class="logo" src="./images/mymovies.png" alt="Logo my movies">
 
-        
+
 
         <section class="container d-flex justify-content-center">
-        <?php 
-            foreach ($movies as $movie): 
+            <?php
+            foreach ($movies as $movie) :
                 $Category = $categoryController->get($movie->getCategory_id());
-        ?>
-            <div class="card mx-3" style="width: 18rem;">
-                <img src="https://th.bing.com/th/id/OIP.jrS3kCsr9-YWwJvRqcGxXwHaJ4?w=132&h=180&c=7&r=0&o=5&pid=1.7" class="card-img-top" alt="<?php $movie->getTitle() ?>">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $movie->getTitle() ?></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><?= $movie->getRelease_date() ?> - <?= $movie->getDirector() ?></h6>
-                    <p class="card-text"><?= $movie->getDescription() ?> </p>
-                    <footer class="blockquote-footer" style="color: <?= $category->getColor() ?>"><?= $Category->getName() ?> </footer>
-                    <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier">
-                        <i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="./views/delete.php?id=<?= $movie->getId() ?>" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Supprimer">
-                        <i class="fa-solid fa-trash-can"></i></a>
+            ?>
+                <div class="card mx-3" style="width: 18rem;">
+                    <img src="https://th.bing.com/th/id/OIP.jrS3kCsr9-YWwJvRqcGxXwHaJ4?w=132&h=180&c=7&r=0&o=5&pid=1.7" class="card-img-top" alt="<?php $movie->getTitle() ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $movie->getTitle() ?></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><?= $movie->getRelease_date() ?> - <?= $movie->getDirector() ?></h6>
+                        <p class="card-text"><?= $movie->getDescription() ?> </p>
+                        <footer class="blockquote-footer" style="color: <?= $category->getColor() ?>"><?= $Category->getName() ?> </footer>
+                        <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier">
+                            <i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="./views/delete.php?id=<?= $movie->getId() ?>" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Supprimer">
+                            <i class="fa-solid fa-trash-can"></i></a>
+                    </div>
                 </div>
-            </div>
 
             <?php endforeach ?>
         </section>

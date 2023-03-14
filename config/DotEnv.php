@@ -1,6 +1,5 @@
 <?php
 
-
 class DotEnv
 {
     /**
@@ -44,4 +43,3 @@ class DotEnv
         }
     }
 }
-?>

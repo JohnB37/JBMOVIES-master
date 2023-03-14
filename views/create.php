@@ -35,9 +35,32 @@
         </nav>
     </header>
 
+    <?php
+
+    
+    function loadClass($class) 
+    {
+        if (str_contains($class, "controller")) {
+            require "../controller/$class.php";
+        } else {
+            require "../Entity/$class.php";
+        }
+    }
+    spl_autoload_register("loadClass");
+    $categoryController = new CategoryController();
+    $categories= $categoryController->getAll();
+
+    if($_POST) {
+    $movieController = new MovieController();
+    $newMovie = new Movie($_POST);
+    $movieController->create($newMovie);
+    }
+    ?>
+    
+
     <main>
         <h3>Publier un nouveau film</h3>
-        <form class="container-fluid w-50" method="POST">
+        <form class="container-fluid w-50" action="../FormManager/formMovieManager.php" method="POST">
             <label for="title">Titre</label>
             <input type="text" name="title" id="title" placeholder="Le titre du film" class="form-control">
             <label for="description">Synopsis</label>
@@ -55,6 +78,7 @@
                 foreach ($categories as $category) : ?>
                     <option value="<?= $category->getId() ?>"><?= $category->getName() ?></option>
                 <?php endforeach ?>
+
             </select>
             <input type="submit" value="Publier" class="btn btn-primary mt-3">
         </form>
